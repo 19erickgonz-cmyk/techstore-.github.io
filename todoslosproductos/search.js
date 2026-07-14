@@ -32,6 +32,9 @@ function filtrarProductos() {
   
   // Mostrar mensaje de no resultados
   noResults.style.display = visibleProducts === 0 ? 'block' : 'none';
+  
+  // Reinicializar zoom para las nuevas imágenes visibles
+  reinicializarZoom();
 }
 
 // Event listeners
@@ -44,4 +47,21 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Filtro por categoría
   categoryFilter.addEventListener('change', filtrarProductos);
+  
+  // Obtener parámetros de URL para buscar automáticamente
+  const urlParams = new URLSearchParams(window.location.search);
+  const searchParam = urlParams.get('search');
+  const categoryParam = urlParams.get('category');
+  
+  if (searchParam) {
+    searchInput.value = decodeURIComponent(searchParam);
+  }
+  if (categoryParam) {
+    categoryFilter.value = decodeURIComponent(categoryParam);
+  }
+  
+  // Aplicar filtros si hay parámetros
+  if (searchParam || categoryParam) {
+    filtrarProductos();
+  }
 });
